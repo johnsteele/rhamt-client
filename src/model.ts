@@ -1,4 +1,3 @@
-
 export interface IRhamtConfiguration {
     name: string;
     input: string[];

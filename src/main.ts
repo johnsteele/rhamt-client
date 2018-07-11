@@ -1,4 +1,3 @@
-
 export * from './model';
 
 export enum METHOD {

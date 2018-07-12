@@ -1,6 +1,6 @@
 {
   "name": "rhamt-client",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "rhamt client",
   "keywords": [
     "rhamt",
@@ -36,5 +36,8 @@
   },
   "bugs": {
     "url": "https://github.com/johnsteele/rhamt-client/issues"
+  },
+  "dependencies": {
+    "npm": "^6.1.0"
   }
 }

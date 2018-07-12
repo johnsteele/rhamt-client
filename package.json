@@ -36,8 +36,5 @@
   },
   "bugs": {
     "url": "https://github.com/johnsteele/rhamt-client/issues"
-  },
-  "dependencies": {
-    "npm": "^6.1.0"
   }
 }

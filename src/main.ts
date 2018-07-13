@@ -25,14 +25,14 @@ export interface IRhamtProgressMonitor {
     isDone();
 }
 
-export interface IRhamtApi {
+export interface IRhamtClient {
     start(config: IRhamtConfiguration): Promise<any>;
     stop(): Promise<any>;
     analyze(monitor: IRhamtProgressMonitor): Promise<any>;
     isRunning(): boolean;
 }
 
-export class RhamtApi implements IRhamtApi {
+export class RhamtClient implements IRhamtClient {
 
     public start(config: IRhamtConfiguration): Promise<any> {
         return new Promise<any>((resolve, reject) => {

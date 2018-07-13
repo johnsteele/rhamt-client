@@ -1,7 +1,7 @@
 
 import * as assert from "assert";
 
-import { RhamtApi, RhamtConfiguration, RhamtProgressMonitor } from '../src/main';
+import { RhamtClient, RhamtConfiguration, RhamtProgressMonitor } from '../src/main';
 
 describe("Rhamt Client", () => {
     it("start, stop", () => {
@@ -9,7 +9,7 @@ describe("Rhamt Client", () => {
             "",
             ""
         );
-        let client = new RhamtApi();
+        let client = new RhamtClient();
         client.start(config).then(() => {
             assert.equal(client.isRunning(), true);
         });
@@ -23,7 +23,7 @@ describe("Rhamt Client", () => {
             "",
             ""
         );
-        let client = new RhamtApi();
+        let client = new RhamtClient();
         client.start(config).then(() => {
             assert.equal(client.isRunning(), true);
         });

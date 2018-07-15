@@ -1,13 +1,15 @@
 
 import * as assert from "assert";
 
-import { RhamtClient, RhamtConfiguration, RhamtProgressMonitor } from '../src/main';
+import { RhamtClient, RhamtRunConfiguration, RhamtProgressMonitor, ServerMonitor } from '../src/main';
 
 describe("Rhamt Client", () => {
     it("start, stop", () => {
-        let config = new RhamtConfiguration(
-            "",
-            ""
+        let config = new RhamtRunConfiguration(
+            "test",
+            0,
+            "test",
+            new ServerMonitor()
         );
         let client = new RhamtClient();
         client.start(config).then(() => {
@@ -19,9 +21,11 @@ describe("Rhamt Client", () => {
     });
 
     it("analyze", () => {
-        let config = new RhamtConfiguration(
-            "",
-            ""
+        let config = new RhamtRunConfiguration(
+            "test",
+            0,
+            "test",
+            new ServerMonitor()
         );
         let client = new RhamtClient();
         client.start(config).then(() => {

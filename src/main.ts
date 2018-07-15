@@ -1,3 +1,5 @@
+import { RhamtService } from './rhamtService';
+
 export * from './model';
 
 export enum METHOD {
@@ -5,9 +7,11 @@ export enum METHOD {
     stop
 }
 
-export interface IRhamtConfiguration {
-    executable: string;
+export interface IRhamtRunConfiguration {
+    rhamtCli: string;
+    port: number;
     javaHome: string;
+    serverMonitor: IServerMonitor;
 }
 
 export interface IRhamtEventHandler {
@@ -26,18 +30,46 @@ export interface IRhamtProgressMonitor {
 }
 
 export interface IRhamtClient {
-    start(config: IRhamtConfiguration): Promise<any>;
+    start(config: IRhamtRunConfiguration): Promise<any>;
     stop(): Promise<any>;
     analyze(monitor: IRhamtProgressMonitor): Promise<any>;
     isRunning(): boolean;
 }
 
+export interface IServerMonitor {
+    onStopServerRequested: () => void;
+    stop(): void;
+    isStopServerRequested(): boolean;
+}
+
+export class ServerMonitor implements IServerMonitor {
+
+    private stopServerRequested: boolean = false;
+
+    public onStopServerRequested: () => void;
+
+    public stop() {
+        if (!this.stopServerRequested) {
+            this.stopServerRequested = true;
+            this.onStopServerRequested();
+        }
+    }
+
+    public isStopServerRequested(): boolean {
+        return this.stopServerRequested;
+    }
+}
+
 export class RhamtClient implements IRhamtClient {
 
-    public start(config: IRhamtConfiguration): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            resolve();
-        });
+    private rhamtService: RhamtService;
+
+    constructor() {
+        this.rhamtService = new RhamtService();
+    }
+
+    public start(config: IRhamtRunConfiguration): Promise<any> {   
+        return this.rhamtService.start(config);
     }
 
     public stop(): Promise<any> {
@@ -57,10 +89,12 @@ export class RhamtClient implements IRhamtClient {
     }
 }
 
-export class RhamtConfiguration implements IRhamtConfiguration {
-
-    constructor (public executable: string, 
-        public javaHome: string) {
+export class RhamtRunConfiguration implements IRhamtRunConfiguration {
+    constructor (
+        public rhamtCli: string, 
+        public port: number = 8080, 
+        public javaHome: string, 
+        public serverMonitor: IServerMonitor) {
     }
 }
 

@@ -2,6 +2,7 @@ import * as cp from 'child_process';
 import { resolve } from 'path';
 import { IRhamtProgressMonitor, IRhamtRunConfiguration, IServerMonitor } from './main';
 import * as waitOn from 'wait-on';
+import * as os from 'os';
 
 export class RhamtService {
 
@@ -70,6 +71,6 @@ export class RhamtService {
 		Object.keys(config).forEach((key: string) => {
 			console.log('rhamt-client using ' + key + " : " + config[key]);
 		 });
-        return cp.spawn(config.rhamtCli, ["--startServer", String(config.port)]);
+        return cp.spawn(config.rhamtCli, ["--startServer", String(config.port)], {cwd: os.homedir()});
     }
 }

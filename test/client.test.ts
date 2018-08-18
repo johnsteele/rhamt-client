@@ -1,18 +1,18 @@
 
 import * as assert from "assert";
 
-import { RhamtClient, RhamtRunConfiguration, RhamtProgressMonitor, ServerMonitor } from '../src/main';
+import { RhamtClient } from '../src/main';
+import { RhamtModel, RhamtModelService, RuntimeConfiguration } from 'rhamt-core';
+import { ProgressMonitor } from "../lib/progressMonitor";
 
 describe("Rhamt Client", () => {
     it("start, stop", () => {
-        let config = new RhamtRunConfiguration(
-            "test",
-            0,
-            "test",
-            new ServerMonitor()
-        );
-        let client = new RhamtClient();
-        client.start(config).then(() => {
+        let model = new RhamtModel();
+        let modelService = new RhamtModelService(model);
+        let config = modelService.createConfiguration();
+        config.runtime = new RuntimeConfiguration();
+        let client = new RhamtClient(config.runtime);
+        client.start().then(() => {
             assert.equal(client.isRunning(), true);
         });
         client.stop().then(() => {
@@ -21,19 +21,17 @@ describe("Rhamt Client", () => {
     });
 
     it("analyze", () => {
-        let config = new RhamtRunConfiguration(
-            "test",
-            0,
-            "test",
-            new ServerMonitor()
-        );
-        let client = new RhamtClient();
-        client.start(config).then(() => {
+        let model = new RhamtModel();
+        let modelService = new RhamtModelService(model);
+        let config = modelService.createConfiguration();
+        config.runtime = new RuntimeConfiguration();
+        let client = new RhamtClient(config.runtime);
+        client.start().then(() => {
             assert.equal(client.isRunning(), true);
         });
-        let monitor = new RhamtProgressMonitor();
-        client.analyze(monitor).then(() => {
-            assert.equal(monitor.isDone(), true);
+        let monitor = new ProgressMonitor(null, null);
+        client.analyze(config).then(() => {
+            assert.equal(monitor., true);
         });
         client.stop().then(() => {
             assert.equal(client.isRunning(), true);
